@@ -52,6 +52,46 @@ struct mac_header {
 	uint16_t seq_nr;
 }__attribute__((packed));
 
+struct framectrl {
+	uint8_t  prot_ver  :2;
+	uint8_t  type      :2;
+	uint8_t  subtype   :4;
+	uint8_t  toDS      :1;
+	uint8_t  fromDS    :1;
+	uint8_t  moreFrag  :1;
+	uint8_t  retry     :1;
+	uint8_t  pwrMgt    :1;
+	uint8_t  moreData  :1;
+	uint8_t  wep       :1;
+	uint8_t  rsdv      :1;
+}__attribute__((packed));
+
+struct beacon_body {
+	uint32_t timestamp;
+	uint16_t interval;
+	uint16_t capability_info;
+}__attribute__((packed));
+
+
+struct ack_header {
+	uint16_t frame_control;
+	uint16_t duration;
+	uint8_t addr[6];
+}__attribute__((packed));
+
+struct rts_header {
+	uint16_t frame_control;
+	uint16_t duration;
+	uint8_t addr1[6];
+	uint8_t addr2[6];
+}__attribute__((packed));
+
+struct neighbor {
+	uint8_t addr[6];
+}__attribute__((packed));
+
+
+
 /**
  * OFDM parameters
  */
@@ -91,6 +131,8 @@ public:
 
 	void print();
 };
+
+
 
 /**
  * Given a payload, generates a MAC data frame (i.e., a PSDU) to be given

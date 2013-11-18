@@ -26,12 +26,8 @@ namespace ieee802_11 {
 class IEEE802_11_API ofdm_mac : virtual public block
 {
 public:
-
 	typedef boost::shared_ptr<ofdm_mac> sptr;
-	static sptr make(
-		bool debug,
-		std::string MACAddress
-	);
+	static sptr make(bool debug);
 };
 
 }  // namespace ieee802_11
