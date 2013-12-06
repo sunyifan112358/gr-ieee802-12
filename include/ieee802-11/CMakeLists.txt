@@ -69,7 +69,6 @@ add_custom_target(ieee802_11_generated_includes DEPENDS
 list(APPEND include_sources
     ${generated_includes}
     api.h
-    ieee802_11_frame.h
     ether_encap.h
     ofdm_decode_mac.h
     ofdm_decode_signal.h

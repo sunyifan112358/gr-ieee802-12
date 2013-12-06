@@ -82,4 +82,9 @@
 		<nports>1</nports>
 	</source>
 
+	<source>
+		<name>cca out</name>
+		<type>message</type>
+		<nports>1</nports>
+	</source>
 </block>

@@ -20,7 +20,6 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/block_detail.h>
 #include <string>
- 
 
 using namespace gr::ieee802_11;
 

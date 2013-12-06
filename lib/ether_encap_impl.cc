@@ -20,7 +20,6 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/block_detail.h>
 #include <string>
- 
 
 using namespace gr::ieee802_11;
 
@@ -65,10 +64,10 @@ ether_encap_impl::from_wifi(pmt::pmt_t msg) {
 	char *buf = static_cast<char*>(std::malloc(data_len + sizeof(ethernet_header)));
 	ethernet_header *ehdr = reinterpret_cast<ethernet_header*>(buf);
 
-        if(((mhdr->frame_control >> 2) & 3) != 2) {
-		dout << "this is not a data frame -- ignoring" << std::endl;
-		return;
-	}
+    //if(((mhdr->frame_control >> 2) & 3) != 2) {
+	//	dout << "this is not a data frame -- ignoring" << std::endl;
+	//	return;
+	//}
 
 	std::memcpy(ehdr->dest, mhdr->addr1, 6);
 	std::memcpy(ehdr->src, mhdr->addr2, 6);
@@ -115,7 +114,9 @@ ether_encap_impl::from_tap(pmt::pmt_t msg) {
 		buf[7] = 0x00;
 		std::memcpy(buf + 8, data + sizeof(ethernet_header), len - sizeof(ethernet_header));
 		pmt::pmt_t blob = pmt::make_blob(buf, len + 8 - sizeof(ethernet_header));
-		message_port_pub(pmt::mp("to wifi"), pmt::cons(pmt::PMT_NIL, blob));
+		pmt::pmt_t d_mac= pmt::init_u8vector(6,ehdr->dest);
+		//message_port_pub(pmt::mp("to wifi"), pmt::cons(pmt::PMT_NIL, blob));
+		message_port_pub(pmt::mp("to wifi"), pmt::cons(d_mac, blob));
 		break;
 	}
 	case 0x0608:

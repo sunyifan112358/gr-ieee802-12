@@ -89,9 +89,6 @@ struct rts_header {
 struct neighbor {
 	uint8_t addr[6];
 }__attribute__((packed));
-
-
-
 /**
  * OFDM parameters
  */
@@ -131,8 +128,6 @@ public:
 
 	void print();
 };
-
-
 
 /**
  * Given a payload, generates a MAC data frame (i.e., a PSDU) to be given

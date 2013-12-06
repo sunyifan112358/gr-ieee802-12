@@ -52,7 +52,6 @@
 %include "ieee802-11/ofdm_sync_long.h"
 %include "ieee802-11/ofdm_sync_short.h"
 
-
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, ether_encap);
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, moving_average_cc);
 GR_SWIG_BLOCK_MAGIC2(ieee802_11, moving_average_ff);

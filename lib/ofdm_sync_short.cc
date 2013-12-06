@@ -38,6 +38,7 @@ ofdm_sync_short_impl(double threshold, unsigned int max_samples,
 			d_threshold(threshold) {
 
 	set_tag_propagation_policy(block::TPP_DONT);
+	message_port_register_out(pmt::mp("cca out"));
 }
 
 ~ofdm_sync_short_impl(){
@@ -72,6 +73,9 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 					d_plateau = 0;
 					insert_tag(nitems_written(0));
 					dout << "SHORT Frame!" << std::endl;
+					// send to mac for carrier sense.
+					pmt::pmt_t cca = pmt::from_bool(true);
+					message_port_pub(pmt::mp("cca out"), pmt::cons(pmt::PMT_NIL, cca));
 					break;
 				}
 			} else {
@@ -93,6 +97,9 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 		if(!d_copy_left) {
 			d_state = SEARCH;
+			pmt::pmt_t cca = pmt::from_bool(false);
+			message_port_pub(pmt::mp("cca out"), pmt::cons(pmt::PMT_NIL, cca));
+
 		}
 
 		dout << "SHORT copied " << to_copy << std::endl;

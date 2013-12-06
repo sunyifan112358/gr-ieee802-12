@@ -6,7 +6,6 @@
 	<category>IEEE802.11</category>
 	<import>import ieee802_11</import>
 	<make>ieee802_11.ofdm_mac($debug)</make>
-
 	<param>
 		<name>Debug</name>
 		<key>debug</key>
@@ -23,7 +22,6 @@
 		</option>
 	</param>
 
-
 	<sink>
 		<name>app in</name>
 		<type>message</type>
@@ -31,13 +29,13 @@
 	</sink>
 
 	<sink>
-		<name>cca in</name>
+		<name>phy in</name>
 		<type>message</type>
 		<optional>1</optional>
 	</sink>
 
 	<sink>
-		<name>phy in</name>
+		<name>cca in</name>
 		<type>message</type>
 		<optional>1</optional>
 	</sink>

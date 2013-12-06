@@ -19,10 +19,6 @@
 #include <cassert>
 #include <cstring>
 #include <math.h>
-#include <stdlib.h>     /* strtol */
-#include <boost/crc.hpp>
-
-
 
 // constellations for different modulations (normalized to avg power 1)
 const std::complex<float> BPSK[2] = {

@@ -63,13 +63,10 @@ ofdm_mac_impl(bool debug) :
 		d_n_tx_attempts(0),
 		d_waiting_for_ack(false),
 		d_ack_time_out(false),
-		d_timeslot_us_as_long(100000)
+		d_timeslot_us_as_long(400000)
 {
 	d_debug=debug;
 	d_timeslot_us=boost::posix_time::microseconds( d_timeslot_us_as_long );
-	d_disable_mac_address_check = true;
-
-
 	message_port_register_out(pmt::mp("phy out"));
 	message_port_register_out(pmt::mp("app out"));
 
@@ -114,7 +111,6 @@ void cca_in(pmt::pmt_t msg){
 void phy_in (pmt::pmt_t msg) {
 	parse(msg);
 }
-
 void app_in (pmt::pmt_t msg) {
 
 	size_t       msg_len;
@@ -216,12 +212,9 @@ void parse(pmt::pmt_t msg) {
 			if (is_my_mac(h->addr,6,my_mac,6))  //my packet was acked
 			{
 				// send the next packet
-				if (this->d_state == WAIT_FOR_ACK){
+				if (this->d_state == WAIT_FOR_ACK)
 					d_waiting_for_ack=false;
-					if(d_debug){
-						std::cout << "ACK received" << std::endl;
-					}
-				}else
+				else
 					std::cout << "ACK recvd after timeout! you may increase the timeout value." << std::endl;
 			}
 		}
@@ -516,9 +509,6 @@ void generate_mac_cts_frame(const uint8_t *ra, int duration, char **psdu, int *p
 
 bool is_my_mac(uint8_t *mac1, int mac1_size, uint8_t *mac2, int mac2_size)
 {
-	if(d_disable_mac_address_check){
-		return true;
-	}
 	if (mac1_size != mac2_size)
 		return false;
 	if (mac1_size != 6)
@@ -549,9 +539,9 @@ void run(){
 	while(!d_finished){
 		//record the slot start time
 		d_slotstart_us = boost::posix_time::microsec_clock::local_time();
-		// if(d_debug){
-		// 	std::cout << "Slot start at: " << d_slotstart_us << std::endl;
-		// }
+		if(d_debug){
+			std::cout << "Slot start at: " << d_slotstart_us << std::endl;
+		}
 
 		//update the state machine,
 		this->tick();
@@ -569,9 +559,9 @@ void run(){
 			exit(0);
 		}
 
-		// if(d_debug){
-		// 	std::cout << "Time remaining: " << time_to_sleep_us << std::endl;
-		// }
+		if(d_debug){
+			std::cout << "Time remaining: " << time_to_sleep_us << std::endl;
+		}
 		//sleep during the remaining time
 		boost::this_thread::sleep(
 			time_to_sleep_us
@@ -834,8 +824,6 @@ private:
 	//if is waiting for ACK, sending is locked.
 	bool d_waiting_for_ack;
 	int d_ack_time_out;
-
-	bool d_disable_mac_address_check;
 
 
 

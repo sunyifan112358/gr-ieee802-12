@@ -28,7 +28,7 @@ namespace ieee802_11 {
 		d_new_length(length),
 		d_updated(false) {
 	set_history(length);
- 
+ message_port_register_out(pmt::mp("cca out"));
 }
 
 void
@@ -59,6 +59,8 @@ int
 	for(int i = 0; i < noutput_items; i++) {
 		sum += in[i + d_length - 1];
 		out[i] = sum;
+  pmt::pmt_t cca = pmt::from_@O_TYPE@(out[i]);
+  message_port_pub(pmt::mp("cca out"), pmt::cons(pmt::PMT_NIL, cca));
 		sum -= in[i];
 	}
  
